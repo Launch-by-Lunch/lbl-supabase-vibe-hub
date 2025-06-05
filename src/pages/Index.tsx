@@ -1,8 +1,9 @@
+
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { ArrowRight, ArrowDown, Database, Cloud, Users, Mail, MessageSquare, CheckCircle } from "lucide-react";
+import { ArrowRight, ArrowDown, Database, Cloud, Users, Mail, MessageSquare, CheckCircle, TestTube } from "lucide-react";
 import { useState } from "react";
 
 const Index = () => {
@@ -33,6 +34,12 @@ const Index = () => {
       prompt: 'Create a Firestore document for the user profile with their additional information (name, company, registration date, etc.).',
       description: 'User data is stored securely in Firestore database on Google\'s servers.'
     },
+    'reg-test': {
+      title: 'Test Registration',
+      location: 'Client (Testing)',
+      prompt: 'Test the complete registration flow by filling out the form with a real email address, checking for the welcome email, and verifying the user profile was created in Firestore.',
+      description: 'Manually test the entire user registration process to ensure all steps work correctly.'
+    },
     'contact-form': {
       title: 'Public Form',
       location: 'Client (Public Website)',
@@ -44,6 +51,12 @@ const Index = () => {
       location: 'Server (Supabase Edge Function)',
       prompt: 'Create a Supabase Edge Function that receives form data and sends emails to both the user (confirmation) and admin (notification).',
       description: 'The email sending happens on Supabase servers to keep API keys secure.'
+    },
+    'contact-test': {
+      title: 'Test Contact Form',
+      location: 'Client (Testing)',
+      prompt: 'Test the contact form by submitting a message and verifying that both the confirmation email to the user and notification email to admin are received.',
+      description: 'Manually test the contact form to ensure emails are sent correctly to both parties.'
     },
     'workflow-form': {
       title: 'Public Form',
@@ -68,6 +81,12 @@ const Index = () => {
       location: 'Server (Supabase Edge Function)',
       prompt: 'Set up an automated email sequence that sends a welcome email to new leads with relevant information.',
       description: 'Welcome emails are sent automatically from Supabase servers.'
+    },
+    'workflow-test': {
+      title: 'Test Complete Workflow',
+      location: 'Client (Testing)',
+      prompt: 'Test the entire lead capture workflow by submitting the form, checking that data appears in Supabase, verifying the Slack notification is sent, and confirming the welcome email is received.',
+      description: 'Manually test the complete automated workflow to ensure all integrations work together correctly.'
     }
   };
 
@@ -398,6 +417,15 @@ const Index = () => {
                       title="Create User Profile"
                       useCaseId="registration"
                     />
+                    
+                    <FlowArrow />
+                    
+                    <StepComponent 
+                      stepId="reg-test"
+                      icon={<TestTube className="h-8 w-8" />}
+                      title="Test Registration"
+                      useCaseId="registration"
+                    />
                   </div>
                 </div>
               </div>
@@ -428,6 +456,15 @@ const Index = () => {
                       icon={<Mail className="h-8 w-8" />}
                       title="Send Email"
                       subtitle="Server-side"
+                      useCaseId="contact"
+                    />
+                    
+                    <FlowArrow />
+                    
+                    <StepComponent 
+                      stepId="contact-test"
+                      icon={<TestTube className="h-8 w-8" />}
+                      title="Test Contact Form"
                       useCaseId="contact"
                     />
                   </div>
@@ -476,6 +513,15 @@ const Index = () => {
                       stepId="workflow-email"
                       icon={<Mail className="h-8 w-8" />}
                       title="Welcome Email"
+                      useCaseId="workflow"
+                    />
+                    
+                    <FlowArrow />
+                    
+                    <StepComponent 
+                      stepId="workflow-test"
+                      icon={<TestTube className="h-8 w-8" />}
+                      title="Test Complete Workflow"
                       useCaseId="workflow"
                     />
                   </div>
