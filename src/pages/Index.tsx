@@ -151,6 +151,12 @@ const Index = () => {
     );
   };
 
+  const FlowArrow = () => (
+    <div className="flex items-center justify-center h-16 px-4">
+      <ArrowRight className="h-6 w-6 text-gray-400" />
+    </div>
+  );
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 p-4">
       <div className="max-w-7xl mx-auto">
@@ -356,34 +362,42 @@ const Index = () => {
                   <h3 className="text-lg font-semibold">User Registration & Onboarding</h3>
                 </div>
                 
-                <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
-                  <StepComponent 
-                    stepId="reg-form"
-                    icon={<Users className="h-8 w-8" />}
-                    title="Registration Form"
-                    useCaseId="registration"
-                  />
-                  
-                  <StepComponent 
-                    stepId="reg-user"
-                    icon={<Database className="h-8 w-8" />}
-                    title="Create Firebase User"
-                    useCaseId="registration"
-                  />
-                  
-                  <StepComponent 
-                    stepId="reg-email"
-                    icon={<MessageSquare className="h-8 w-8" />}
-                    title="Send Welcome Email"
-                    useCaseId="registration"
-                  />
-                  
-                  <StepComponent 
-                    stepId="reg-profile"
-                    icon={<CheckCircle className="h-8 w-8" />}
-                    title="Create User Profile"
-                    useCaseId="registration"
-                  />
+                <div className="flex items-center justify-center mb-6 overflow-x-auto">
+                  <div className="flex items-center min-w-max">
+                    <StepComponent 
+                      stepId="reg-form"
+                      icon={<Users className="h-8 w-8" />}
+                      title="Registration Form"
+                      useCaseId="registration"
+                    />
+                    
+                    <FlowArrow />
+                    
+                    <StepComponent 
+                      stepId="reg-user"
+                      icon={<Database className="h-8 w-8" />}
+                      title="Create Firebase User"
+                      useCaseId="registration"
+                    />
+                    
+                    <FlowArrow />
+                    
+                    <StepComponent 
+                      stepId="reg-email"
+                      icon={<MessageSquare className="h-8 w-8" />}
+                      title="Send Welcome Email"
+                      useCaseId="registration"
+                    />
+                    
+                    <FlowArrow />
+                    
+                    <StepComponent 
+                      stepId="reg-profile"
+                      icon={<CheckCircle className="h-8 w-8" />}
+                      title="Create User Profile"
+                      useCaseId="registration"
+                    />
+                  </div>
                 </div>
               </div>
 
@@ -394,22 +408,26 @@ const Index = () => {
                   <h3 className="text-lg font-semibold">Simple Contact Form</h3>
                 </div>
                 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
-                  <StepComponent 
-                    stepId="contact-form"
-                    icon={<Users className="h-8 w-8" />}
-                    title="Public Form"
-                    subtitle="No login required"
-                    useCaseId="contact"
-                  />
-                  
-                  <StepComponent 
-                    stepId="contact-email"
-                    icon={<Mail className="h-8 w-8" />}
-                    title="Send Email"
-                    subtitle="Server-side"
-                    useCaseId="contact"
-                  />
+                <div className="flex items-center justify-center mb-6 overflow-x-auto">
+                  <div className="flex items-center min-w-max">
+                    <StepComponent 
+                      stepId="contact-form"
+                      icon={<Users className="h-8 w-8" />}
+                      title="Public Form"
+                      subtitle="No login required"
+                      useCaseId="contact"
+                    />
+                    
+                    <FlowArrow />
+                    
+                    <StepComponent 
+                      stepId="contact-email"
+                      icon={<Mail className="h-8 w-8" />}
+                      title="Send Email"
+                      subtitle="Server-side"
+                      useCaseId="contact"
+                    />
+                  </div>
                 </div>
               </div>
 
@@ -420,34 +438,42 @@ const Index = () => {
                   <h3 className="text-lg font-semibold">Complete Workflow Automation</h3>
                 </div>
                 
-                <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
-                  <StepComponent 
-                    stepId="workflow-form"
-                    icon={<Users className="h-8 w-8" />}
-                    title="Public Form"
-                    useCaseId="workflow"
-                  />
-                  
-                  <StepComponent 
-                    stepId="workflow-db"
-                    icon={<Database className="h-8 w-8" />}
-                    title="Store in Database"
-                    useCaseId="workflow"
-                  />
-                  
-                  <StepComponent 
-                    stepId="workflow-slack"
-                    icon={<MessageSquare className="h-8 w-8" />}
-                    title="Slack Notification"
-                    useCaseId="workflow"
-                  />
-                  
-                  <StepComponent 
-                    stepId="workflow-email"
-                    icon={<Mail className="h-8 w-8" />}
-                    title="Welcome Email"
-                    useCaseId="workflow"
-                  />
+                <div className="flex items-center justify-center mb-6 overflow-x-auto">
+                  <div className="flex items-center min-w-max">
+                    <StepComponent 
+                      stepId="workflow-form"
+                      icon={<Users className="h-8 w-8" />}
+                      title="Public Form"
+                      useCaseId="workflow"
+                    />
+                    
+                    <FlowArrow />
+                    
+                    <StepComponent 
+                      stepId="workflow-db"
+                      icon={<Database className="h-8 w-8" />}
+                      title="Store in Database"
+                      useCaseId="workflow"
+                    />
+                    
+                    <FlowArrow />
+                    
+                    <StepComponent 
+                      stepId="workflow-slack"
+                      icon={<MessageSquare className="h-8 w-8" />}
+                      title="Slack Notification"
+                      useCaseId="workflow"
+                    />
+                    
+                    <FlowArrow />
+                    
+                    <StepComponent 
+                      stepId="workflow-email"
+                      icon={<Mail className="h-8 w-8" />}
+                      title="Welcome Email"
+                      useCaseId="workflow"
+                    />
+                  </div>
                 </div>
               </div>
 
