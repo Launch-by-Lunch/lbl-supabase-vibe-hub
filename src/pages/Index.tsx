@@ -1,4 +1,3 @@
-
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
@@ -35,10 +34,10 @@ const Index = () => {
       description: 'User data is stored securely in Firestore database on Google\'s servers.'
     },
     'reg-test': {
-      title: 'Test Registration',
+      title: 'Manual Test',
       location: 'Client (Testing)',
-      prompt: 'Test the complete registration flow by filling out the form with a real email address, checking for the welcome email, and verifying the user profile was created in Firestore.',
-      description: 'Manually test the entire user registration process to ensure all steps work correctly.'
+      prompt: 'Follow these steps to verify your registration system: 1. Open your registration form in a browser 2. Fill out all required fields with a real email address 3. Submit the form and verify successful submission 4. Check your email inbox for the welcome email 5. Log into Firebase Console and verify the user account was created 6. Check Firestore to confirm the user profile document exists',
+      description: 'Manually verify each part of the registration workflow works correctly.'
     },
     'contact-form': {
       title: 'Public Form',
@@ -53,10 +52,10 @@ const Index = () => {
       description: 'The email sending happens on Supabase servers to keep API keys secure.'
     },
     'contact-test': {
-      title: 'Test Contact Form',
+      title: 'Manual Test',
       location: 'Client (Testing)',
-      prompt: 'Test the contact form by submitting a message and verifying that both the confirmation email to the user and notification email to admin are received.',
-      description: 'Manually test the contact form to ensure emails are sent correctly to both parties.'
+      prompt: 'Follow these steps to verify your contact form: 1. Open your contact form in a browser 2. Fill out the name, email, and message fields 3. Submit the form 4. Check the user\'s email for a confirmation message 5. Check the admin email for the notification 6. Verify both emails contain the correct information from the form',
+      description: 'Manually verify that both confirmation and notification emails are sent correctly.'
     },
     'workflow-form': {
       title: 'Public Form',
@@ -83,10 +82,10 @@ const Index = () => {
       description: 'Welcome emails are sent automatically from Supabase servers.'
     },
     'workflow-test': {
-      title: 'Test Complete Workflow',
+      title: 'Manual Test',
       location: 'Client (Testing)',
-      prompt: 'Test the entire lead capture workflow by submitting the form, checking that data appears in Supabase, verifying the Slack notification is sent, and confirming the welcome email is received.',
-      description: 'Manually test the complete automated workflow to ensure all integrations work together correctly.'
+      prompt: 'Follow these steps to verify your complete workflow: 1. Open your lead capture form 2. Fill out all fields with real information 3. Submit the form 4. Check Supabase dashboard to confirm the lead data was stored 5. Check your Slack channel for the notification message 6. Check the lead\'s email for the welcome message 7. Verify all data matches what was submitted in the form',
+      description: 'Manually verify the entire automated workflow from form submission to all notifications.'
     }
   };
 
@@ -182,7 +181,7 @@ const Index = () => {
         {/* Header */}
         <div className="text-center mb-8">
           <h1 className="text-4xl font-bold text-gray-900 mb-4">
-            Build Your Cloud App
+            Cloud App Builder
           </h1>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto">
             Transform your application with authentication, database storage, and automated workflows.
@@ -375,7 +374,7 @@ const Index = () => {
               
               {/* Use Case 1 - User Registration */}
               <div className={`border rounded-lg p-6 transition-colors ${
-                selectedStep?.startsWith('registration') ? 'bg-green-50' : 'bg-gray-50'
+                selectedStep?.startsWith('registration') ? 'bg-green-50' : 'bg-gray-100'
               }`}>
                 <div className="flex items-center gap-2 mb-4">
                   <Badge variant="outline" className="bg-purple-100">Use Case 1</Badge>
@@ -423,7 +422,7 @@ const Index = () => {
                     <StepComponent 
                       stepId="reg-test"
                       icon={<TestTube className="h-8 w-8" />}
-                      title="Test Registration"
+                      title="Manual Test"
                       useCaseId="registration"
                     />
                   </div>
@@ -432,7 +431,7 @@ const Index = () => {
 
               {/* Use Case 2 - Simple Contact Form */}
               <div className={`border rounded-lg p-6 transition-colors ${
-                selectedStep?.startsWith('contact') ? 'bg-green-50' : 'bg-gray-50'
+                selectedStep?.startsWith('contact') ? 'bg-green-50' : 'bg-gray-100'
               }`}>
                 <div className="flex items-center gap-2 mb-4">
                   <Badge variant="outline" className="bg-blue-100">Use Case 2</Badge>
@@ -464,7 +463,7 @@ const Index = () => {
                     <StepComponent 
                       stepId="contact-test"
                       icon={<TestTube className="h-8 w-8" />}
-                      title="Test Contact Form"
+                      title="Manual Test"
                       useCaseId="contact"
                     />
                   </div>
@@ -473,7 +472,7 @@ const Index = () => {
 
               {/* Use Case 3 - Complete Workflow */}
               <div className={`border rounded-lg p-6 transition-colors ${
-                selectedStep?.startsWith('workflow') ? 'bg-green-50' : 'bg-gray-50'
+                selectedStep?.startsWith('workflow') ? 'bg-green-50' : 'bg-gray-100'
               }`}>
                 <div className="flex items-center gap-2 mb-4">
                   <Badge variant="outline" className="bg-green-100">Use Case 3</Badge>
@@ -521,7 +520,7 @@ const Index = () => {
                     <StepComponent 
                       stepId="workflow-test"
                       icon={<TestTube className="h-8 w-8" />}
-                      title="Test Complete Workflow"
+                      title="Manual Test"
                       useCaseId="workflow"
                     />
                   </div>
