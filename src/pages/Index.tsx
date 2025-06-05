@@ -1,102 +1,112 @@
+
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { ArrowRight, ArrowLeft, ArrowDown, Database, Cloud, Users, Mail, MessageSquare, CheckCircle } from "lucide-react";
+import { ArrowRight, ArrowLeft, Database, Cloud, Users, Mail, MessageSquare, CheckCircle } from "lucide-react";
 import { useState } from "react";
 
 const Index = () => {
-  const [selectedStep, setSelectedStep] = useState<string | null>(null);
-  const [currentUseCase, setCurrentUseCase] = useState(0);
+  const [currentStep, setCurrentStep] = useState(0);
 
-  const useCases = [
+  // Flatten all steps from all use cases into a single array
+  const allSteps = [
+    // Registration flow steps
     {
-      id: 'registration',
-      title: 'User Registration & Onboarding',
-      description: 'Complete user registration flow with Firebase authentication and automated onboarding',
-      color: 'purple',
-      steps: ['reg-form', 'reg-user', 'reg-email', 'reg-profile']
-    },
-    {
-      id: 'contact',
-      title: 'Simple Contact Form',
-      description: 'Basic contact form with email notifications',
-      color: 'blue',
-      steps: ['contact-form', 'contact-email']
-    },
-    {
-      id: 'workflow',
-      title: 'Complete Workflow Automation',
-      description: 'Advanced lead capture with database storage and multi-channel notifications',
-      color: 'green',
-      steps: ['workflow-form', 'workflow-db', 'workflow-slack', 'workflow-email']
-    }
-  ];
-
-  const stepDetails = {
-    'reg-form': {
+      id: 'reg-form',
       title: 'Registration Form',
       location: 'Client (Public Website)',
       prompt: 'Create a user registration form with email, password, and profile fields (name, company). Add form validation and handle submission to Firebase Auth.',
-      description: 'This runs on your public website where users can access it without logging in.'
+      description: 'This runs on your public website where users can access it without logging in.',
+      useCase: 'User Registration & Onboarding',
+      color: 'purple'
     },
-    'reg-user': {
+    {
+      id: 'reg-user',
       title: 'Create Firebase User',
       location: 'Server (Firebase Auth)',
       prompt: 'Set up Firebase Authentication to create user accounts. Configure email verification and handle authentication errors gracefully.',
-      description: 'Firebase automatically handles user creation and authentication on their secure servers.'
+      description: 'Firebase automatically handles user creation and authentication on their secure servers.',
+      useCase: 'User Registration & Onboarding',
+      color: 'purple'
     },
-    'reg-email': {
+    {
+      id: 'reg-email',
       title: 'Send Welcome Email',
       location: 'Server (Supabase Edge Function)',
       prompt: 'Create a Supabase Edge Function that triggers after user registration to send a welcome email using a service like SendGrid or Resend.',
-      description: 'This runs on Supabase servers and is triggered automatically when a new user registers.'
+      description: 'This runs on Supabase servers and is triggered automatically when a new user registers.',
+      useCase: 'User Registration & Onboarding',
+      color: 'purple'
     },
-    'reg-profile': {
+    {
+      id: 'reg-profile',
       title: 'Create User Profile',
       location: 'Server (Firestore Database)',
       prompt: 'Create a Firestore document for the user profile with their additional information (name, company, registration date, etc.).',
-      description: 'User data is stored securely in Firestore database on Google\'s servers.'
+      description: 'User data is stored securely in Firestore database on Google\'s servers.',
+      useCase: 'User Registration & Onboarding',
+      color: 'purple'
     },
-    'contact-form': {
-      title: 'Public Form',
+    // Contact form steps
+    {
+      id: 'contact-form',
+      title: 'Contact Form',
       location: 'Client (Public Website)',
       prompt: 'Create a contact form with fields for name, email, and message. Add form validation and handle submission.',
-      description: 'This form is publicly accessible on your website without requiring user login.'
+      description: 'This form is publicly accessible on your website without requiring user login.',
+      useCase: 'Simple Contact Form',
+      color: 'blue'
     },
-    'contact-email': {
-      title: 'Send Email',
+    {
+      id: 'contact-email',
+      title: 'Send Contact Email',
       location: 'Server (Supabase Edge Function)',
       prompt: 'Create a Supabase Edge Function that receives form data and sends emails to both the user (confirmation) and admin (notification).',
-      description: 'The email sending happens on Supabase servers to keep API keys secure.'
+      description: 'The email sending happens on Supabase servers to keep API keys secure.',
+      useCase: 'Simple Contact Form',
+      color: 'blue'
     },
-    'workflow-form': {
-      title: 'Public Form',
+    // Workflow automation steps
+    {
+      id: 'workflow-form',
+      title: 'Lead Capture Form',
       location: 'Client (Public Website)',
       prompt: 'Create a lead capture form with fields for name, email, company, and interest. Add validation and submission handling.',
-      description: 'This form collects leads from your public website visitors.'
+      description: 'This form collects leads from your public website visitors.',
+      useCase: 'Complete Workflow Automation',
+      color: 'green'
     },
-    'workflow-db': {
+    {
+      id: 'workflow-db',
       title: 'Store in Database',
       location: 'Server (Supabase Database)',
       prompt: 'Create a Supabase table for leads and insert form data. Set up RLS policies for security.',
-      description: 'Lead data is securely stored in Supabase PostgreSQL database.'
+      description: 'Lead data is securely stored in Supabase PostgreSQL database.',
+      useCase: 'Complete Workflow Automation',
+      color: 'green'
     },
-    'workflow-slack': {
+    {
+      id: 'workflow-slack',
       title: 'Slack Notification',
       location: 'Server (Supabase Edge Function)',
       prompt: 'Create an Edge Function that sends a Slack webhook notification to your sales team when a new lead is captured.',
-      description: 'Slack notifications are sent from Supabase servers using secure webhook URLs.'
+      description: 'Slack notifications are sent from Supabase servers using secure webhook URLs.',
+      useCase: 'Complete Workflow Automation',
+      color: 'green'
     },
-    'workflow-email': {
+    {
+      id: 'workflow-email',
       title: 'Welcome Email',
       location: 'Server (Supabase Edge Function)',
       prompt: 'Set up an automated email sequence that sends a welcome email to new leads with relevant information.',
-      description: 'Welcome emails are sent automatically from Supabase servers.'
+      description: 'Welcome emails are sent automatically from Supabase servers.',
+      useCase: 'Complete Workflow Automation',
+      color: 'green'
     }
-  };
+  ];
 
-  const currentUseCaseData = useCases[currentUseCase];
+  const currentStepData = allSteps[currentStep];
 
   const getStepIcon = (stepId: string) => {
     if (stepId.includes('form')) return <Users className="h-8 w-8" />;
@@ -107,76 +117,39 @@ const Index = () => {
     return <Database className="h-8 w-8" />;
   };
 
-  const getColorClasses = (color: string, isSelected: boolean = false) => {
+  const getColorClasses = (color: string) => {
     const colors = {
       purple: {
-        bg: isSelected ? 'bg-purple-500' : 'bg-purple-200 hover:bg-purple-300',
-        text: isSelected ? 'text-white' : 'text-purple-600',
+        bg: 'bg-purple-500',
+        bgLight: 'bg-purple-50',
         border: 'border-purple-200',
-        bgLight: 'bg-purple-50'
+        text: 'text-purple-600'
       },
       blue: {
-        bg: isSelected ? 'bg-blue-500' : 'bg-blue-200 hover:bg-blue-300',
-        text: isSelected ? 'text-white' : 'text-blue-600',
+        bg: 'bg-blue-500',
+        bgLight: 'bg-blue-50',
         border: 'border-blue-200',
-        bgLight: 'bg-blue-50'
+        text: 'text-blue-600'
       },
       green: {
-        bg: isSelected ? 'bg-green-500' : 'bg-green-200 hover:bg-green-300',
-        text: isSelected ? 'text-white' : 'text-green-600',
+        bg: 'bg-green-500',
+        bgLight: 'bg-green-50',
         border: 'border-green-200',
-        bgLight: 'bg-green-50'
+        text: 'text-green-600'
       }
     };
     return colors[color as keyof typeof colors];
   };
 
-  const StepComponent = ({ stepId }: { stepId: string }) => {
-    const isSelected = selectedStep === stepId;
-    const step = stepDetails[stepId as keyof typeof stepDetails];
-    const colorClasses = getColorClasses(currentUseCaseData.color, isSelected);
-    
-    return (
-      <div 
-        className={`flex flex-col items-center cursor-pointer transition-all duration-200 ${
-          isSelected ? 'transform scale-105' : 'hover:transform hover:scale-102'
-        }`}
-        onClick={() => setSelectedStep(stepId)}
-      >
-        <div className={`w-16 h-16 rounded-lg flex items-center justify-center mb-2 transition-colors ${
-          isSelected ? 'bg-blue-500 shadow-lg' : colorClasses.bg
-        }`}>
-          <div className={`transition-colors ${
-            isSelected ? 'text-white' : colorClasses.text
-          }`}>
-            {getStepIcon(stepId)}
-          </div>
-        </div>
-        <span className={`text-sm font-medium text-center transition-colors ${
-          isSelected ? 'text-blue-600 font-semibold' : ''
-        }`}>{step.title}</span>
-        {step && (
-          <Badge variant="outline" className={`mt-1 text-xs ${
-            step.location.includes('Client') ? 'bg-orange-50 text-orange-700' : 'bg-green-50 text-green-700'
-          }`}>
-            {step.location.includes('Client') ? 'Client' : 'Server'}
-          </Badge>
-        )}
-      </div>
-    );
-  };
-
-  const nextUseCase = () => {
-    if (currentUseCase < useCases.length - 1) {
-      setCurrentUseCase(currentUseCase + 1);
-      setSelectedStep(null);
+  const nextStep = () => {
+    if (currentStep < allSteps.length - 1) {
+      setCurrentStep(currentStep + 1);
     }
   };
 
-  const prevUseCase = () => {
-    if (currentUseCase > 0) {
-      setCurrentUseCase(currentUseCase - 1);
-      setSelectedStep(null);
+  const prevStep = () => {
+    if (currentStep > 0) {
+      setCurrentStep(currentStep - 1);
     }
   };
 
@@ -367,12 +340,12 @@ const Index = () => {
           </CardContent>
         </Card>
 
-        {/* Stepped Use Cases Presentation */}
+        {/* Individual Step Presentation */}
         <Card>
           <CardHeader>
-            <CardTitle className="text-2xl">Step-by-Step Implementation Guide</CardTitle>
+            <CardTitle className="text-2xl">Step 2: Implementation Steps</CardTitle>
             <CardDescription>
-              Navigate through different use cases to understand the complete workflow
+              Follow each implementation step to build your cloud-powered application
             </CardDescription>
           </CardHeader>
           <CardContent>
@@ -380,8 +353,8 @@ const Index = () => {
             <div className="flex items-center justify-between mb-8">
               <Button 
                 variant="outline" 
-                onClick={prevUseCase}
-                disabled={currentUseCase === 0}
+                onClick={prevStep}
+                disabled={currentStep === 0}
                 className="flex items-center gap-2"
               >
                 <ArrowLeft className="h-4 w-4" />
@@ -389,17 +362,17 @@ const Index = () => {
               </Button>
               
               <div className="text-center">
-                <Badge variant="outline" className={`mb-2 ${getColorClasses(currentUseCaseData.color).bgLight}`}>
-                  Use Case {currentUseCase + 1} of {useCases.length}
+                <Badge variant="outline" className={`mb-2 ${getColorClasses(currentStepData.color).bgLight}`}>
+                  Step {currentStep + 1} of {allSteps.length}
                 </Badge>
-                <h3 className="text-xl font-semibold">{currentUseCaseData.title}</h3>
-                <p className="text-sm text-gray-600">{currentUseCaseData.description}</p>
+                <h3 className="text-xl font-semibold">{currentStepData.title}</h3>
+                <p className="text-sm text-gray-600">{currentStepData.useCase}</p>
               </div>
               
               <Button 
                 variant="outline" 
-                onClick={nextUseCase}
-                disabled={currentUseCase === useCases.length - 1}
+                onClick={nextStep}
+                disabled={currentStep === allSteps.length - 1}
                 className="flex items-center gap-2"
               >
                 Next
@@ -407,60 +380,51 @@ const Index = () => {
               </Button>
             </div>
 
-            {/* Current Use Case Workflow */}
-            <div className={`border rounded-lg p-6 ${getColorClasses(currentUseCaseData.color).bgLight} ${getColorClasses(currentUseCaseData.color).border}`}>
-              <div className="flex flex-col md:flex-row items-center justify-center gap-4 mb-6">
-                {currentUseCaseData.steps.map((stepId, index) => (
-                  <div key={stepId} className="flex items-center">
-                    <StepComponent stepId={stepId} />
-                    {index < currentUseCaseData.steps.length - 1 && (
-                      <>
-                        <ArrowDown className="h-6 w-6 text-gray-400 md:hidden mx-2" />
-                        <ArrowRight className="h-6 w-6 text-gray-400 hidden md:block mx-4" />
-                      </>
-                    )}
-                  </div>
-                ))}
-              </div>
-
-              {selectedStep && stepDetails[selectedStep as keyof typeof stepDetails] && (
-                <div className="bg-white p-4 rounded border border-blue-200">
-                  <div className="flex items-center gap-2 mb-2">
-                    <h4 className="font-medium">{stepDetails[selectedStep as keyof typeof stepDetails].title}</h4>
-                    <Badge variant="outline" className={
-                      stepDetails[selectedStep as keyof typeof stepDetails].location.includes('Client') 
-                        ? 'bg-orange-50 text-orange-700' 
-                        : 'bg-green-50 text-green-700'
-                    }>
-                      {stepDetails[selectedStep as keyof typeof stepDetails].location}
-                    </Badge>
-                  </div>
-                  <p className="text-sm text-gray-600 mb-3">
-                    {stepDetails[selectedStep as keyof typeof stepDetails].description}
-                  </p>
-                  <div className="bg-blue-50 p-3 rounded">
-                    <h5 className="font-medium text-sm mb-1">AI Prompt:</h5>
-                    <p className="text-sm italic text-blue-800">
-                      "{stepDetails[selectedStep as keyof typeof stepDetails].prompt}"
-                    </p>
+            {/* Current Step Display */}
+            <div className={`border rounded-lg p-8 ${getColorClasses(currentStepData.color).bgLight} ${getColorClasses(currentStepData.color).border}`}>
+              <div className="flex flex-col items-center text-center mb-6">
+                <div className={`w-20 h-20 rounded-lg flex items-center justify-center mb-4 ${getColorClasses(currentStepData.color).bg} shadow-lg`}>
+                  <div className="text-white">
+                    {getStepIcon(currentStepData.id)}
                   </div>
                 </div>
-              )}
+                <h4 className="text-2xl font-bold mb-2">{currentStepData.title}</h4>
+                <Badge variant="outline" className={
+                  currentStepData.location.includes('Client') 
+                    ? 'bg-orange-50 text-orange-700' 
+                    : 'bg-green-50 text-green-700'
+                }>
+                  {currentStepData.location}
+                </Badge>
+              </div>
+
+              <div className="max-w-2xl mx-auto space-y-4">
+                <div className="bg-white p-4 rounded border">
+                  <h5 className="font-medium mb-2">What happens here:</h5>
+                  <p className="text-sm text-gray-600">
+                    {currentStepData.description}
+                  </p>
+                </div>
+
+                <div className="bg-blue-50 p-4 rounded border border-blue-200">
+                  <h5 className="font-medium text-sm mb-2 text-blue-800">AI Prompt to use:</h5>
+                  <p className="text-sm italic text-blue-800">
+                    "{currentStepData.prompt}"
+                  </p>
+                </div>
+              </div>
             </div>
 
-            {/* Step Indicators */}
-            <div className="flex justify-center mt-6">
+            {/* Progress Indicators */}
+            <div className="flex justify-center mt-8">
               <div className="flex space-x-2">
-                {useCases.map((useCase, index) => (
+                {allSteps.map((step, index) => (
                   <button
-                    key={useCase.id}
-                    onClick={() => {
-                      setCurrentUseCase(index);
-                      setSelectedStep(null);
-                    }}
+                    key={step.id}
+                    onClick={() => setCurrentStep(index)}
                     className={`w-3 h-3 rounded-full transition-colors ${
-                      index === currentUseCase 
-                        ? 'bg-blue-500' 
+                      index === currentStep 
+                        ? getColorClasses(step.color).bg
                         : 'bg-gray-300 hover:bg-gray-400'
                     }`}
                   />
