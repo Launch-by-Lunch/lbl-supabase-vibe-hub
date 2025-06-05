@@ -1,4 +1,3 @@
-
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
@@ -72,49 +71,81 @@ const Index = () => {
     }
   };
 
-  const StepComponent = ({ stepId, icon, title, subtitle }: { stepId: string, icon: React.ReactNode, title: string, subtitle?: string }) => {
-    const isSelected = selectedStep === stepId;
+  const StepComponent = ({ stepId, icon, title, subtitle, useCaseId }: { 
+    stepId: string, 
+    icon: React.ReactNode, 
+    title: string, 
+    subtitle?: string,
+    useCaseId: string 
+  }) => {
+    const isSelected = selectedStep === `${useCaseId}-${stepId}`;
     const step = stepDetails[stepId as keyof typeof stepDetails];
     
     return (
-      <div 
-        className={`flex flex-col items-center cursor-pointer transition-all duration-200 ${
-          isSelected ? 'transform scale-105' : 'hover:transform hover:scale-102'
-        }`}
-        onClick={() => setSelectedStep(stepId)}
-      >
-        <div className={`w-16 h-16 rounded-lg flex items-center justify-center mb-2 transition-colors ${
-          isSelected 
-            ? 'bg-blue-500 shadow-lg' 
-            : stepId.includes('reg') 
-              ? 'bg-purple-200 hover:bg-purple-300' 
-              : stepId.includes('contact')
-                ? 'bg-blue-200 hover:bg-blue-300'
-                : 'bg-green-200 hover:bg-green-300'
-        }`}>
-          <div className={`transition-colors ${
-            isSelected ? 'text-white' : 
-            stepId.includes('reg') 
-              ? 'text-purple-600' 
-              : stepId.includes('contact')
-                ? 'text-blue-600'
-                : 'text-green-600'
+      <div className="flex flex-col items-center">
+        <div 
+          className={`flex flex-col items-center cursor-pointer transition-all duration-200 ${
+            isSelected ? 'transform scale-105' : 'hover:transform hover:scale-102'
+          }`}
+          onClick={() => setSelectedStep(isSelected ? null : `${useCaseId}-${stepId}`)}
+        >
+          <div className={`w-16 h-16 rounded-lg flex items-center justify-center mb-2 transition-colors ${
+            isSelected 
+              ? 'bg-blue-500 shadow-lg' 
+              : stepId.includes('reg') 
+                ? 'bg-purple-200 hover:bg-purple-300' 
+                : stepId.includes('contact')
+                  ? 'bg-blue-200 hover:bg-blue-300'
+                  : 'bg-green-200 hover:bg-green-300'
           }`}>
-            {icon}
+            <div className={`transition-colors ${
+              isSelected ? 'text-white' : 
+              stepId.includes('reg') 
+                ? 'text-purple-600' 
+                : stepId.includes('contact')
+                  ? 'text-blue-600'
+                  : 'text-green-600'
+            }`}>
+              {icon}
+            </div>
           </div>
+          <span className={`text-sm font-medium text-center transition-colors ${
+            isSelected ? 'text-blue-600 font-semibold' : ''
+          }`}>{title}</span>
+          {subtitle && (
+            <span className="text-xs text-gray-600 text-center">{subtitle}</span>
+          )}
+          {step && (
+            <Badge variant="outline" className={`mt-1 text-xs ${
+              step.location.includes('Client') ? 'bg-orange-50 text-orange-700' : 'bg-green-50 text-green-700'
+            }`}>
+              {step.location.includes('Client') ? 'Client' : 'Server'}
+            </Badge>
+          )}
         </div>
-        <span className={`text-sm font-medium text-center transition-colors ${
-          isSelected ? 'text-blue-600 font-semibold' : ''
-        }`}>{title}</span>
-        {subtitle && (
-          <span className="text-xs text-gray-600 text-center">{subtitle}</span>
-        )}
-        {step && (
-          <Badge variant="outline" className={`mt-1 text-xs ${
-            step.location.includes('Client') ? 'bg-orange-50 text-orange-700' : 'bg-green-50 text-green-700'
-          }`}>
-            {step.location.includes('Client') ? 'Client' : 'Server'}
-          </Badge>
+        
+        {isSelected && step && (
+          <div className="bg-white p-4 rounded border border-blue-200 mt-4 w-full max-w-md">
+            <div className="flex items-center gap-2 mb-2">
+              <h4 className="font-medium">{step.title}</h4>
+              <Badge variant="outline" className={
+                step.location.includes('Client') 
+                  ? 'bg-orange-50 text-orange-700' 
+                  : 'bg-green-50 text-green-700'
+              }>
+                {step.location}
+              </Badge>
+            </div>
+            <p className="text-sm text-gray-600 mb-3">
+              {step.description}
+            </p>
+            <div className="bg-blue-50 p-3 rounded">
+              <h5 className="font-medium text-sm mb-1">AI Prompt:</h5>
+              <p className="text-sm italic text-blue-800">
+                "{step.prompt}"
+              </p>
+            </div>
+          </div>
         )}
       </div>
     );
@@ -325,64 +356,35 @@ const Index = () => {
                   <h3 className="text-lg font-semibold">User Registration & Onboarding</h3>
                 </div>
                 
-                <div className="flex flex-col md:flex-row items-center justify-center gap-4 mb-6">
+                <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
                   <StepComponent 
                     stepId="reg-form"
                     icon={<Users className="h-8 w-8" />}
                     title="Registration Form"
+                    useCaseId="registration"
                   />
-                  
-                  <ArrowDown className="h-6 w-6 text-gray-400 md:hidden" />
-                  <ArrowRight className="h-6 w-6 text-gray-400 hidden md:block" />
                   
                   <StepComponent 
                     stepId="reg-user"
                     icon={<Database className="h-8 w-8" />}
                     title="Create Firebase User"
+                    useCaseId="registration"
                   />
-                  
-                  <ArrowDown className="h-6 w-6 text-gray-400 md:hidden" />
-                  <ArrowRight className="h-6 w-6 text-gray-400 hidden md:block" />
                   
                   <StepComponent 
                     stepId="reg-email"
                     icon={<MessageSquare className="h-8 w-8" />}
                     title="Send Welcome Email"
+                    useCaseId="registration"
                   />
-                  
-                  <ArrowDown className="h-6 w-6 text-gray-400 md:hidden" />
-                  <ArrowRight className="h-6 w-6 text-gray-400 hidden md:block" />
                   
                   <StepComponent 
                     stepId="reg-profile"
                     icon={<CheckCircle className="h-8 w-8" />}
                     title="Create User Profile"
+                    useCaseId="registration"
                   />
                 </div>
-
-                {selectedStep && stepDetails[selectedStep as keyof typeof stepDetails] && (
-                  <div className="bg-white p-4 rounded border border-blue-200">
-                    <div className="flex items-center gap-2 mb-2">
-                      <h4 className="font-medium">{stepDetails[selectedStep as keyof typeof stepDetails].title}</h4>
-                      <Badge variant="outline" className={
-                        stepDetails[selectedStep as keyof typeof stepDetails].location.includes('Client') 
-                          ? 'bg-orange-50 text-orange-700' 
-                          : 'bg-green-50 text-green-700'
-                      }>
-                        {stepDetails[selectedStep as keyof typeof stepDetails].location}
-                      </Badge>
-                    </div>
-                    <p className="text-sm text-gray-600 mb-3">
-                      {stepDetails[selectedStep as keyof typeof stepDetails].description}
-                    </p>
-                    <div className="bg-blue-50 p-3 rounded">
-                      <h5 className="font-medium text-sm mb-1">AI Prompt:</h5>
-                      <p className="text-sm italic text-blue-800">
-                        "{stepDetails[selectedStep as keyof typeof stepDetails].prompt}"
-                      </p>
-                    </div>
-                  </div>
-                )}
               </div>
 
               {/* Use Case 2 - Simple Contact Form */}
@@ -392,48 +394,23 @@ const Index = () => {
                   <h3 className="text-lg font-semibold">Simple Contact Form</h3>
                 </div>
                 
-                <div className="flex flex-col md:flex-row items-center justify-center gap-4 mb-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
                   <StepComponent 
                     stepId="contact-form"
                     icon={<Users className="h-8 w-8" />}
                     title="Public Form"
                     subtitle="No login required"
+                    useCaseId="contact"
                   />
-                  
-                  <ArrowDown className="h-6 w-6 text-gray-400 md:hidden" />
-                  <ArrowRight className="h-6 w-6 text-gray-400 hidden md:block" />
                   
                   <StepComponent 
                     stepId="contact-email"
                     icon={<Mail className="h-8 w-8" />}
                     title="Send Email"
                     subtitle="Server-side"
+                    useCaseId="contact"
                   />
                 </div>
-
-                {selectedStep && (selectedStep === 'contact-form' || selectedStep === 'contact-email') && (
-                  <div className="bg-white p-4 rounded border border-blue-200">
-                    <div className="flex items-center gap-2 mb-2">
-                      <h4 className="font-medium">{stepDetails[selectedStep as keyof typeof stepDetails].title}</h4>
-                      <Badge variant="outline" className={
-                        stepDetails[selectedStep as keyof typeof stepDetails].location.includes('Client') 
-                          ? 'bg-orange-50 text-orange-700' 
-                          : 'bg-green-50 text-green-700'
-                      }>
-                        {stepDetails[selectedStep as keyof typeof stepDetails].location}
-                      </Badge>
-                    </div>
-                    <p className="text-sm text-gray-600 mb-3">
-                      {stepDetails[selectedStep as keyof typeof stepDetails].description}
-                    </p>
-                    <div className="bg-blue-50 p-3 rounded">
-                      <h5 className="font-medium text-sm mb-1">AI Prompt:</h5>
-                      <p className="text-sm italic text-blue-800">
-                        "{stepDetails[selectedStep as keyof typeof stepDetails].prompt}"
-                      </p>
-                    </div>
-                  </div>
-                )}
               </div>
 
               {/* Use Case 3 - Complete Workflow */}
@@ -443,64 +420,35 @@ const Index = () => {
                   <h3 className="text-lg font-semibold">Complete Workflow Automation</h3>
                 </div>
                 
-                <div className="flex flex-col md:flex-row items-center justify-center gap-4 mb-6">
+                <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
                   <StepComponent 
                     stepId="workflow-form"
                     icon={<Users className="h-8 w-8" />}
                     title="Public Form"
+                    useCaseId="workflow"
                   />
-                  
-                  <ArrowDown className="h-6 w-6 text-gray-400 md:hidden" />
-                  <ArrowRight className="h-6 w-6 text-gray-400 hidden md:block" />
                   
                   <StepComponent 
                     stepId="workflow-db"
                     icon={<Database className="h-8 w-8" />}
                     title="Store in Database"
+                    useCaseId="workflow"
                   />
-                  
-                  <ArrowDown className="h-6 w-6 text-gray-400 md:hidden" />
-                  <ArrowRight className="h-6 w-6 text-gray-400 hidden md:block" />
                   
                   <StepComponent 
                     stepId="workflow-slack"
                     icon={<MessageSquare className="h-8 w-8" />}
                     title="Slack Notification"
+                    useCaseId="workflow"
                   />
-                  
-                  <ArrowDown className="h-6 w-6 text-gray-400 md:hidden" />
-                  <ArrowRight className="h-6 w-6 text-gray-400 hidden md:block" />
                   
                   <StepComponent 
                     stepId="workflow-email"
                     icon={<Mail className="h-8 w-8" />}
                     title="Welcome Email"
+                    useCaseId="workflow"
                   />
                 </div>
-
-                {selectedStep && selectedStep.startsWith('workflow-') && (
-                  <div className="bg-white p-4 rounded border border-blue-200">
-                    <div className="flex items-center gap-2 mb-2">
-                      <h4 className="font-medium">{stepDetails[selectedStep as keyof typeof stepDetails].title}</h4>
-                      <Badge variant="outline" className={
-                        stepDetails[selectedStep as keyof typeof stepDetails].location.includes('Client') 
-                          ? 'bg-orange-50 text-orange-700' 
-                          : 'bg-green-50 text-green-700'
-                      }>
-                        {stepDetails[selectedStep as keyof typeof stepDetails].location}
-                      </Badge>
-                    </div>
-                    <p className="text-sm text-gray-600 mb-3">
-                      {stepDetails[selectedStep as keyof typeof stepDetails].description}
-                    </p>
-                    <div className="bg-blue-50 p-3 rounded">
-                      <h5 className="font-medium text-sm mb-1">AI Prompt:</h5>
-                      <p className="text-sm italic text-blue-800">
-                        "{stepDetails[selectedStep as keyof typeof stepDetails].prompt}"
-                      </p>
-                    </div>
-                  </div>
-                )}
               </div>
 
             </div>
