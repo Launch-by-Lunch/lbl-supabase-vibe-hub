@@ -4,8 +4,122 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { ArrowRight, ArrowDown, Database, Cloud, Users, Mail, MessageSquare, CheckCircle } from "lucide-react";
+import { useState } from "react";
 
 const Index = () => {
+  const [selectedStep, setSelectedStep] = useState<string | null>(null);
+
+  const stepDetails = {
+    'reg-form': {
+      title: 'Registration Form',
+      location: 'Client (Public Website)',
+      prompt: 'Create a user registration form with email, password, and profile fields (name, company). Add form validation and handle submission to Firebase Auth.',
+      description: 'This runs on your public website where users can access it without logging in.'
+    },
+    'reg-user': {
+      title: 'Create Firebase User',
+      location: 'Server (Firebase Auth)',
+      prompt: 'Set up Firebase Authentication to create user accounts. Configure email verification and handle authentication errors gracefully.',
+      description: 'Firebase automatically handles user creation and authentication on their secure servers.'
+    },
+    'reg-email': {
+      title: 'Send Welcome Email',
+      location: 'Server (Supabase Edge Function)',
+      prompt: 'Create a Supabase Edge Function that triggers after user registration to send a welcome email using a service like SendGrid or Resend.',
+      description: 'This runs on Supabase servers and is triggered automatically when a new user registers.'
+    },
+    'reg-profile': {
+      title: 'Create User Profile',
+      location: 'Server (Firestore Database)',
+      prompt: 'Create a Firestore document for the user profile with their additional information (name, company, registration date, etc.).',
+      description: 'User data is stored securely in Firestore database on Google\'s servers.'
+    },
+    'contact-form': {
+      title: 'Public Form',
+      location: 'Client (Public Website)',
+      prompt: 'Create a contact form with fields for name, email, and message. Add form validation and handle submission.',
+      description: 'This form is publicly accessible on your website without requiring user login.'
+    },
+    'contact-email': {
+      title: 'Send Email',
+      location: 'Server (Supabase Edge Function)',
+      prompt: 'Create a Supabase Edge Function that receives form data and sends emails to both the user (confirmation) and admin (notification).',
+      description: 'The email sending happens on Supabase servers to keep API keys secure.'
+    },
+    'workflow-form': {
+      title: 'Public Form',
+      location: 'Client (Public Website)',
+      prompt: 'Create a lead capture form with fields for name, email, company, and interest. Add validation and submission handling.',
+      description: 'This form collects leads from your public website visitors.'
+    },
+    'workflow-db': {
+      title: 'Store in Database',
+      location: 'Server (Supabase Database)',
+      prompt: 'Create a Supabase table for leads and insert form data. Set up RLS policies for security.',
+      description: 'Lead data is securely stored in Supabase PostgreSQL database.'
+    },
+    'workflow-slack': {
+      title: 'Slack Notification',
+      location: 'Server (Supabase Edge Function)',
+      prompt: 'Create an Edge Function that sends a Slack webhook notification to your sales team when a new lead is captured.',
+      description: 'Slack notifications are sent from Supabase servers using secure webhook URLs.'
+    },
+    'workflow-email': {
+      title: 'Welcome Email',
+      location: 'Server (Supabase Edge Function)',
+      prompt: 'Set up an automated email sequence that sends a welcome email to new leads with relevant information.',
+      description: 'Welcome emails are sent automatically from Supabase servers.'
+    }
+  };
+
+  const StepComponent = ({ stepId, icon, title, subtitle }: { stepId: string, icon: React.ReactNode, title: string, subtitle?: string }) => {
+    const isSelected = selectedStep === stepId;
+    const step = stepDetails[stepId as keyof typeof stepDetails];
+    
+    return (
+      <div 
+        className={`flex flex-col items-center cursor-pointer transition-all duration-200 ${
+          isSelected ? 'transform scale-105' : 'hover:transform hover:scale-102'
+        }`}
+        onClick={() => setSelectedStep(stepId)}
+      >
+        <div className={`w-16 h-16 rounded-lg flex items-center justify-center mb-2 transition-colors ${
+          isSelected 
+            ? 'bg-blue-500 shadow-lg' 
+            : stepId.includes('reg') 
+              ? 'bg-purple-200 hover:bg-purple-300' 
+              : stepId.includes('contact')
+                ? 'bg-blue-200 hover:bg-blue-300'
+                : 'bg-green-200 hover:bg-green-300'
+        }`}>
+          <div className={`transition-colors ${
+            isSelected ? 'text-white' : 
+            stepId.includes('reg') 
+              ? 'text-purple-600' 
+              : stepId.includes('contact')
+                ? 'text-blue-600'
+                : 'text-green-600'
+          }`}>
+            {icon}
+          </div>
+        </div>
+        <span className={`text-sm font-medium text-center transition-colors ${
+          isSelected ? 'text-blue-600 font-semibold' : ''
+        }`}>{title}</span>
+        {subtitle && (
+          <span className="text-xs text-gray-600 text-center">{subtitle}</span>
+        )}
+        {step && (
+          <Badge variant="outline" className={`mt-1 text-xs ${
+            step.location.includes('Client') ? 'bg-orange-50 text-orange-700' : 'bg-green-50 text-green-700'
+          }`}>
+            {step.location.includes('Client') ? 'Client' : 'Server'}
+          </Badge>
+        )}
+      </div>
+    );
+  };
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 p-4">
       <div className="max-w-7xl mx-auto">
@@ -198,7 +312,7 @@ const Index = () => {
           <CardHeader>
             <CardTitle className="text-2xl">Step 2: Common Use Cases & Workflows</CardTitle>
             <CardDescription>
-              See how your app can handle real-world scenarios with cloud backend
+              Click on each step to see detailed implementation prompts and understand where each task runs
             </CardDescription>
           </CardHeader>
           <CardContent>
@@ -212,50 +326,63 @@ const Index = () => {
                 </div>
                 
                 <div className="flex flex-col md:flex-row items-center justify-center gap-4 mb-6">
-                  <div className="flex flex-col items-center">
-                    <div className="w-16 h-16 bg-blue-200 rounded-lg flex items-center justify-center mb-2">
-                      <Users className="h-8 w-8 text-blue-600" />
-                    </div>
-                    <span className="text-sm font-medium text-center">Registration Form</span>
-                  </div>
+                  <StepComponent 
+                    stepId="reg-form"
+                    icon={<Users className="h-8 w-8" />}
+                    title="Registration Form"
+                  />
                   
                   <ArrowDown className="h-6 w-6 text-gray-400 md:hidden" />
                   <ArrowRight className="h-6 w-6 text-gray-400 hidden md:block" />
                   
-                  <div className="flex flex-col items-center">
-                    <div className="w-16 h-16 bg-orange-200 rounded-lg flex items-center justify-center mb-2">
-                      <Database className="h-8 w-8 text-orange-600" />
-                    </div>
-                    <span className="text-sm font-medium text-center">Create Firebase User</span>
-                  </div>
+                  <StepComponent 
+                    stepId="reg-user"
+                    icon={<Database className="h-8 w-8" />}
+                    title="Create Firebase User"
+                  />
                   
                   <ArrowDown className="h-6 w-6 text-gray-400 md:hidden" />
                   <ArrowRight className="h-6 w-6 text-gray-400 hidden md:block" />
                   
-                  <div className="flex flex-col items-center">
-                    <div className="w-16 h-16 bg-yellow-200 rounded-lg flex items-center justify-center mb-2">
-                      <MessageSquare className="h-8 w-8 text-yellow-600" />
-                    </div>
-                    <span className="text-sm font-medium text-center">Send Welcome Email</span>
-                  </div>
+                  <StepComponent 
+                    stepId="reg-email"
+                    icon={<MessageSquare className="h-8 w-8" />}
+                    title="Send Welcome Email"
+                  />
                   
                   <ArrowDown className="h-6 w-6 text-gray-400 md:hidden" />
                   <ArrowRight className="h-6 w-6 text-gray-400 hidden md:block" />
                   
-                  <div className="flex flex-col items-center">
-                    <div className="w-16 h-16 bg-green-200 rounded-lg flex items-center justify-center mb-2">
-                      <CheckCircle className="h-8 w-8 text-green-600" />
-                    </div>
-                    <span className="text-sm font-medium text-center">Create User Profile</span>
-                  </div>
+                  <StepComponent 
+                    stepId="reg-profile"
+                    icon={<CheckCircle className="h-8 w-8" />}
+                    title="Create User Profile"
+                  />
                 </div>
 
-                <div className="bg-white p-4 rounded border">
-                  <h4 className="font-medium mb-2">AI Prompt:</h4>
-                  <p className="text-sm italic">
-                    "Add Firebase authentication with user registration. Create a registration form with email, password, and profile fields. After successful registration, automatically send a welcome email and create a user profile in Firestore. Add login redirect to dashboard."
-                  </p>
-                </div>
+                {selectedStep && stepDetails[selectedStep as keyof typeof stepDetails] && (
+                  <div className="bg-white p-4 rounded border border-blue-200">
+                    <div className="flex items-center gap-2 mb-2">
+                      <h4 className="font-medium">{stepDetails[selectedStep as keyof typeof stepDetails].title}</h4>
+                      <Badge variant="outline" className={
+                        stepDetails[selectedStep as keyof typeof stepDetails].location.includes('Client') 
+                          ? 'bg-orange-50 text-orange-700' 
+                          : 'bg-green-50 text-green-700'
+                      }>
+                        {stepDetails[selectedStep as keyof typeof stepDetails].location}
+                      </Badge>
+                    </div>
+                    <p className="text-sm text-gray-600 mb-3">
+                      {stepDetails[selectedStep as keyof typeof stepDetails].description}
+                    </p>
+                    <div className="bg-blue-50 p-3 rounded">
+                      <h5 className="font-medium text-sm mb-1">AI Prompt:</h5>
+                      <p className="text-sm italic text-blue-800">
+                        "{stepDetails[selectedStep as keyof typeof stepDetails].prompt}"
+                      </p>
+                    </div>
+                  </div>
+                )}
               </div>
 
               {/* Use Case 2 - Simple Contact Form */}
@@ -266,33 +393,47 @@ const Index = () => {
                 </div>
                 
                 <div className="flex flex-col md:flex-row items-center justify-center gap-4 mb-6">
-                  <div className="flex flex-col items-center">
-                    <div className="w-16 h-16 bg-blue-200 rounded-lg flex items-center justify-center mb-2">
-                      <Users className="h-8 w-8 text-blue-600" />
-                    </div>
-                    <span className="text-sm font-medium">Public Form</span>
-                    <span className="text-xs text-gray-600">No login required</span>
-                  </div>
+                  <StepComponent 
+                    stepId="contact-form"
+                    icon={<Users className="h-8 w-8" />}
+                    title="Public Form"
+                    subtitle="No login required"
+                  />
                   
                   <ArrowDown className="h-6 w-6 text-gray-400 md:hidden" />
                   <ArrowRight className="h-6 w-6 text-gray-400 hidden md:block" />
                   
-                  <div className="flex flex-col items-center">
-                    <div className="w-16 h-16 bg-green-200 rounded-lg flex items-center justify-center mb-2">
-                      <Mail className="h-8 w-8 text-green-600" />
-                    </div>
-                    <span className="text-sm font-medium">Send Email</span>
-                    <span className="text-xs text-gray-600">Server-side</span>
-                  </div>
+                  <StepComponent 
+                    stepId="contact-email"
+                    icon={<Mail className="h-8 w-8" />}
+                    title="Send Email"
+                    subtitle="Server-side"
+                  />
                 </div>
 
-                <div className="bg-white p-4 rounded border">
-                  <h4 className="font-medium mb-2">AI Prompt:</h4>
-                  <p className="text-sm italic">
-                    "Create a contact form that sends emails using Supabase Edge Functions. 
-                    Include fields for name, email, and message. Send confirmation email to user and notification to admin."
-                  </p>
-                </div>
+                {selectedStep && (selectedStep === 'contact-form' || selectedStep === 'contact-email') && (
+                  <div className="bg-white p-4 rounded border border-blue-200">
+                    <div className="flex items-center gap-2 mb-2">
+                      <h4 className="font-medium">{stepDetails[selectedStep as keyof typeof stepDetails].title}</h4>
+                      <Badge variant="outline" className={
+                        stepDetails[selectedStep as keyof typeof stepDetails].location.includes('Client') 
+                          ? 'bg-orange-50 text-orange-700' 
+                          : 'bg-green-50 text-green-700'
+                      }>
+                        {stepDetails[selectedStep as keyof typeof stepDetails].location}
+                      </Badge>
+                    </div>
+                    <p className="text-sm text-gray-600 mb-3">
+                      {stepDetails[selectedStep as keyof typeof stepDetails].description}
+                    </p>
+                    <div className="bg-blue-50 p-3 rounded">
+                      <h5 className="font-medium text-sm mb-1">AI Prompt:</h5>
+                      <p className="text-sm italic text-blue-800">
+                        "{stepDetails[selectedStep as keyof typeof stepDetails].prompt}"
+                      </p>
+                    </div>
+                  </div>
+                )}
               </div>
 
               {/* Use Case 3 - Complete Workflow */}
@@ -303,52 +444,63 @@ const Index = () => {
                 </div>
                 
                 <div className="flex flex-col md:flex-row items-center justify-center gap-4 mb-6">
-                  <div className="flex flex-col items-center">
-                    <div className="w-16 h-16 bg-blue-200 rounded-lg flex items-center justify-center mb-2">
-                      <Users className="h-8 w-8 text-blue-600" />
-                    </div>
-                    <span className="text-sm font-medium text-center">Public Form</span>
-                  </div>
+                  <StepComponent 
+                    stepId="workflow-form"
+                    icon={<Users className="h-8 w-8" />}
+                    title="Public Form"
+                  />
                   
                   <ArrowDown className="h-6 w-6 text-gray-400 md:hidden" />
                   <ArrowRight className="h-6 w-6 text-gray-400 hidden md:block" />
                   
-                  <div className="flex flex-col items-center">
-                    <div className="w-16 h-16 bg-purple-200 rounded-lg flex items-center justify-center mb-2">
-                      <Database className="h-8 w-8 text-purple-600" />
-                    </div>
-                    <span className="text-sm font-medium text-center">Store in Database</span>
-                  </div>
+                  <StepComponent 
+                    stepId="workflow-db"
+                    icon={<Database className="h-8 w-8" />}
+                    title="Store in Database"
+                  />
                   
                   <ArrowDown className="h-6 w-6 text-gray-400 md:hidden" />
                   <ArrowRight className="h-6 w-6 text-gray-400 hidden md:block" />
                   
-                  <div className="flex flex-col items-center">
-                    <div className="w-16 h-16 bg-yellow-200 rounded-lg flex items-center justify-center mb-2">
-                      <MessageSquare className="h-8 w-8 text-yellow-600" />
-                    </div>
-                    <span className="text-sm font-medium text-center">Slack Notification</span>
-                  </div>
+                  <StepComponent 
+                    stepId="workflow-slack"
+                    icon={<MessageSquare className="h-8 w-8" />}
+                    title="Slack Notification"
+                  />
                   
                   <ArrowDown className="h-6 w-6 text-gray-400 md:hidden" />
                   <ArrowRight className="h-6 w-6 text-gray-400 hidden md:block" />
                   
-                  <div className="flex flex-col items-center">
-                    <div className="w-16 h-16 bg-green-200 rounded-lg flex items-center justify-center mb-2">
-                      <Mail className="h-8 w-8 text-green-600" />
-                    </div>
-                    <span className="text-sm font-medium text-center">Welcome Email</span>
-                  </div>
+                  <StepComponent 
+                    stepId="workflow-email"
+                    icon={<Mail className="h-8 w-8" />}
+                    title="Welcome Email"
+                  />
                 </div>
 
-                <div className="bg-white p-4 rounded border">
-                  <h4 className="font-medium mb-2">AI Prompt:</h4>
-                  <p className="text-sm italic">
-                    "Create a lead capture form that: 1) Stores data in Supabase table, 
-                    2) Sends Slack notification to sales team, 3) Triggers welcome email sequence. 
-                    Include form validation and success confirmation."
-                  </p>
-                </div>
+                {selectedStep && selectedStep.startsWith('workflow-') && (
+                  <div className="bg-white p-4 rounded border border-blue-200">
+                    <div className="flex items-center gap-2 mb-2">
+                      <h4 className="font-medium">{stepDetails[selectedStep as keyof typeof stepDetails].title}</h4>
+                      <Badge variant="outline" className={
+                        stepDetails[selectedStep as keyof typeof stepDetails].location.includes('Client') 
+                          ? 'bg-orange-50 text-orange-700' 
+                          : 'bg-green-50 text-green-700'
+                      }>
+                        {stepDetails[selectedStep as keyof typeof stepDetails].location}
+                      </Badge>
+                    </div>
+                    <p className="text-sm text-gray-600 mb-3">
+                      {stepDetails[selectedStep as keyof typeof stepDetails].description}
+                    </p>
+                    <div className="bg-blue-50 p-3 rounded">
+                      <h5 className="font-medium text-sm mb-1">AI Prompt:</h5>
+                      <p className="text-sm italic text-blue-800">
+                        "{stepDetails[selectedStep as keyof typeof stepDetails].prompt}"
+                      </p>
+                    </div>
+                  </div>
+                )}
               </div>
 
             </div>
