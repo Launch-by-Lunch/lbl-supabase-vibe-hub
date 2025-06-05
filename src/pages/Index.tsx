@@ -1,3 +1,4 @@
+
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
@@ -488,28 +489,47 @@ const Index = () => {
 
         {/* Pro Tip Banner */}
         <div className="mt-12">
-          <Card className="bg-gradient-to-r from-amber-50 to-yellow-50 border-amber-200">
-            <CardContent className="p-6">
-              <div className="flex items-start gap-3 mb-4">
-                <div className="p-2 bg-amber-100 rounded-full">
-                  <Lightbulb className="h-5 w-5 text-amber-600" />
+          <Card className="bg-gradient-to-br from-blue-50 to-indigo-50 border-blue-200 shadow-sm">
+            <CardContent className="p-8">
+              <div className="flex items-start gap-4 mb-6">
+                <div className="p-3 bg-blue-100 rounded-full flex-shrink-0">
+                  <Lightbulb className="h-6 w-6 text-blue-600" />
                 </div>
-                <h3 className="text-lg font-semibold text-amber-800">Pro Tip</h3>
+                <h3 className="text-2xl font-bold text-blue-900">Pro Tip</h3>
               </div>
-              <div className="grid md:grid-cols-2 gap-6">
-                <div>
-                  <p className="text-amber-700">
+              <div className="grid md:grid-cols-2 gap-8">
+                <div className="space-y-4">
+                  <h4 className="text-lg font-semibold text-blue-800 mb-3">Multi-App Strategy</h4>
+                  <p className="text-blue-700 leading-relaxed">
                     You can link multiple applications to the same Supabase project. This approach creates a powerful development workflow that maximizes efficiency and minimizes complexity.
                   </p>
+                  <p className="text-blue-700 leading-relaxed">
+                    Instead of building one large monolithic application, create several smaller, focused apps that all share the same backend infrastructure.
+                  </p>
                 </div>
-                <div>
-                  <h4 className="font-medium text-amber-800 mb-2">Benefits:</h4>
-                  <ul className="space-y-1 text-amber-700">
-                    <li>• Smaller, more focused applications</li>
-                    <li>• Reduced complexity per project</li>
-                    <li>• More experimentation opportunities</li>
-                    <li>• Burns fewer tokens</li>
-                    <li>• Shared database and authentication</li>
+                <div className="bg-white/60 backdrop-blur-sm rounded-lg p-6 border border-blue-100">
+                  <h4 className="text-lg font-semibold text-blue-800 mb-4">Key Benefits</h4>
+                  <ul className="space-y-3">
+                    <li className="flex items-start gap-3 text-blue-700">
+                      <CheckCircle className="h-5 w-5 text-green-500 mt-0.5 flex-shrink-0" />
+                      <span>Smaller, more focused applications</span>
+                    </li>
+                    <li className="flex items-start gap-3 text-blue-700">
+                      <CheckCircle className="h-5 w-5 text-green-500 mt-0.5 flex-shrink-0" />
+                      <span>Reduced complexity per project</span>
+                    </li>
+                    <li className="flex items-start gap-3 text-blue-700">
+                      <CheckCircle className="h-5 w-5 text-green-500 mt-0.5 flex-shrink-0" />
+                      <span>More experimentation opportunities</span>
+                    </li>
+                    <li className="flex items-start gap-3 text-blue-700">
+                      <CheckCircle className="h-5 w-5 text-green-500 mt-0.5 flex-shrink-0" />
+                      <span>Burns fewer tokens per iteration</span>
+                    </li>
+                    <li className="flex items-start gap-3 text-blue-700">
+                      <CheckCircle className="h-5 w-5 text-green-500 mt-0.5 flex-shrink-0" />
+                      <span>Shared database and authentication</span>
+                    </li>
                   </ul>
                 </div>
               </div>
