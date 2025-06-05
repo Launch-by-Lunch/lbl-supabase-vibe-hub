@@ -1,3 +1,4 @@
+
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
@@ -203,14 +204,14 @@ const Index = () => {
           <CardContent>
             <div className="space-y-8">
               
-              {/* Use Case 1 - New Registration Case */}
+              {/* Use Case 1 - User Registration */}
               <div className="border rounded-lg p-6 bg-purple-50">
                 <div className="flex items-center gap-2 mb-4">
                   <Badge variant="outline" className="bg-purple-100">Use Case 1</Badge>
                   <h3 className="text-lg font-semibold">User Registration & Onboarding</h3>
                 </div>
                 
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-4">
+                <div className="flex flex-col md:flex-row items-center justify-center gap-4 mb-6">
                   <div className="flex flex-col items-center">
                     <div className="w-16 h-16 bg-blue-200 rounded-lg flex items-center justify-center mb-2">
                       <Users className="h-8 w-8 text-blue-600" />
@@ -218,27 +219,30 @@ const Index = () => {
                     <span className="text-sm font-medium text-center">Registration Form</span>
                   </div>
                   
+                  <ArrowDown className="h-6 w-6 text-gray-400 md:hidden" />
+                  <ArrowRight className="h-6 w-6 text-gray-400 hidden md:block" />
+                  
                   <div className="flex flex-col items-center">
-                    <ArrowDown className="h-6 w-6 text-gray-400 mb-2 md:hidden" />
-                    <ArrowRight className="h-6 w-6 text-gray-400 mb-2 hidden md:block" />
                     <div className="w-16 h-16 bg-orange-200 rounded-lg flex items-center justify-center mb-2">
                       <Database className="h-8 w-8 text-orange-600" />
                     </div>
                     <span className="text-sm font-medium text-center">Create Firebase User</span>
                   </div>
                   
+                  <ArrowDown className="h-6 w-6 text-gray-400 md:hidden" />
+                  <ArrowRight className="h-6 w-6 text-gray-400 hidden md:block" />
+                  
                   <div className="flex flex-col items-center">
-                    <ArrowDown className="h-6 w-6 text-gray-400 mb-2 md:hidden" />
-                    <ArrowRight className="h-6 w-6 text-gray-400 mb-2 hidden md:block" />
                     <div className="w-16 h-16 bg-yellow-200 rounded-lg flex items-center justify-center mb-2">
                       <MessageSquare className="h-8 w-8 text-yellow-600" />
                     </div>
                     <span className="text-sm font-medium text-center">Send Welcome Email</span>
                   </div>
                   
+                  <ArrowDown className="h-6 w-6 text-gray-400 md:hidden" />
+                  <ArrowRight className="h-6 w-6 text-gray-400 hidden md:block" />
+                  
                   <div className="flex flex-col items-center">
-                    <ArrowDown className="h-6 w-6 text-gray-400 mb-2 md:hidden" />
-                    <ArrowRight className="h-6 w-6 text-gray-400 mb-2 hidden md:block" />
                     <div className="w-16 h-16 bg-green-200 rounded-lg flex items-center justify-center mb-2">
                       <CheckCircle className="h-8 w-8 text-green-600" />
                     </div>
@@ -254,14 +258,14 @@ const Index = () => {
                 </div>
               </div>
 
-              {/* Use Case 2 - Renamed to Use Case 2 */}
+              {/* Use Case 2 - Simple Contact Form */}
               <div className="border rounded-lg p-6 bg-blue-50">
                 <div className="flex items-center gap-2 mb-4">
                   <Badge variant="outline" className="bg-blue-100">Use Case 2</Badge>
                   <h3 className="text-lg font-semibold">Simple Contact Form</h3>
                 </div>
                 
-                <div className="flex items-center justify-between mb-4">
+                <div className="flex flex-col md:flex-row items-center justify-center gap-4 mb-6">
                   <div className="flex flex-col items-center">
                     <div className="w-16 h-16 bg-blue-200 rounded-lg flex items-center justify-center mb-2">
                       <Users className="h-8 w-8 text-blue-600" />
@@ -270,7 +274,8 @@ const Index = () => {
                     <span className="text-xs text-gray-600">No login required</span>
                   </div>
                   
-                  <ArrowRight className="h-6 w-6 text-gray-400" />
+                  <ArrowDown className="h-6 w-6 text-gray-400 md:hidden" />
+                  <ArrowRight className="h-6 w-6 text-gray-400 hidden md:block" />
                   
                   <div className="flex flex-col items-center">
                     <div className="w-16 h-16 bg-green-200 rounded-lg flex items-center justify-center mb-2">
@@ -290,14 +295,14 @@ const Index = () => {
                 </div>
               </div>
 
-              {/* Use Case 3 - Renamed to Use Case 3 */}
+              {/* Use Case 3 - Complete Workflow */}
               <div className="border rounded-lg p-6 bg-green-50">
                 <div className="flex items-center gap-2 mb-4">
                   <Badge variant="outline" className="bg-green-100">Use Case 3</Badge>
                   <h3 className="text-lg font-semibold">Complete Workflow Automation</h3>
                 </div>
                 
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-4">
+                <div className="flex flex-col md:flex-row items-center justify-center gap-4 mb-6">
                   <div className="flex flex-col items-center">
                     <div className="w-16 h-16 bg-blue-200 rounded-lg flex items-center justify-center mb-2">
                       <Users className="h-8 w-8 text-blue-600" />
@@ -305,27 +310,30 @@ const Index = () => {
                     <span className="text-sm font-medium text-center">Public Form</span>
                   </div>
                   
+                  <ArrowDown className="h-6 w-6 text-gray-400 md:hidden" />
+                  <ArrowRight className="h-6 w-6 text-gray-400 hidden md:block" />
+                  
                   <div className="flex flex-col items-center">
-                    <ArrowDown className="h-6 w-6 text-gray-400 mb-2 md:hidden" />
-                    <ArrowRight className="h-6 w-6 text-gray-400 mb-2 hidden md:block" />
                     <div className="w-16 h-16 bg-purple-200 rounded-lg flex items-center justify-center mb-2">
                       <Database className="h-8 w-8 text-purple-600" />
                     </div>
                     <span className="text-sm font-medium text-center">Store in Database</span>
                   </div>
                   
+                  <ArrowDown className="h-6 w-6 text-gray-400 md:hidden" />
+                  <ArrowRight className="h-6 w-6 text-gray-400 hidden md:block" />
+                  
                   <div className="flex flex-col items-center">
-                    <ArrowDown className="h-6 w-6 text-gray-400 mb-2 md:hidden" />
-                    <ArrowRight className="h-6 w-6 text-gray-400 mb-2 hidden md:block" />
                     <div className="w-16 h-16 bg-yellow-200 rounded-lg flex items-center justify-center mb-2">
                       <MessageSquare className="h-8 w-8 text-yellow-600" />
                     </div>
                     <span className="text-sm font-medium text-center">Slack Notification</span>
                   </div>
                   
+                  <ArrowDown className="h-6 w-6 text-gray-400 md:hidden" />
+                  <ArrowRight className="h-6 w-6 text-gray-400 hidden md:block" />
+                  
                   <div className="flex flex-col items-center">
-                    <ArrowDown className="h-6 w-6 text-gray-400 mb-2 md:hidden" />
-                    <ArrowRight className="h-6 w-6 text-gray-400 mb-2 hidden md:block" />
                     <div className="w-16 h-16 bg-green-200 rounded-lg flex items-center justify-center mb-2">
                       <Mail className="h-8 w-8 text-green-600" />
                     </div>
