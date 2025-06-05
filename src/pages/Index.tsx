@@ -1,4 +1,3 @@
-
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
@@ -12,7 +11,7 @@ const Index = () => {
   const stepDetails = {
     'reg-form': {
       title: 'Registration Form',
-      location: 'Client (Public Website)',
+      location: 'Frontend (Public Website)',
       prompt: 'Create a user registration form with email, password, and profile fields (name, company). Add form validation and handle submission to Firebase Auth.',
       description: 'This runs on your public website where users can access it without logging in.'
     },
@@ -36,7 +35,7 @@ const Index = () => {
     },
     'contact-form': {
       title: 'Public Form',
-      location: 'Client (Public Website)',
+      location: 'Frontend (Public Website)',
       prompt: 'Create a contact form with fields for name, email, and message. Add form validation and handle submission.',
       description: 'This form is publicly accessible on your website without requiring user login.'
     },
@@ -48,7 +47,7 @@ const Index = () => {
     },
     'workflow-form': {
       title: 'Public Form',
-      location: 'Client (Public Website)',
+      location: 'Frontend (Public Website)',
       prompt: 'Create a lead capture form with fields for name, email, company, and interest. Add validation and submission handling.',
       description: 'This form collects leads from your public website visitors.'
     },
@@ -118,9 +117,9 @@ const Index = () => {
           )}
           {step && (
             <Badge variant="outline" className={`mt-1 text-xs ${
-              step.location.includes('Client') ? 'bg-orange-50 text-orange-700' : 'bg-white text-gray-700 border-gray-300'
+              step.location.includes('Frontend') ? 'bg-orange-50 text-orange-700' : 'bg-white text-gray-700 border-gray-300'
             }`}>
-              {step.location.includes('Client') ? 'Client' : 'Server'}
+              {step.location.includes('Frontend') ? 'Frontend' : 'Server'}
             </Badge>
           )}
         </div>
@@ -130,7 +129,7 @@ const Index = () => {
             <div className="flex items-center gap-2 mb-2">
               <h4 className="font-medium">{step.title}</h4>
               <Badge variant="outline" className={
-                step.location.includes('Client') 
+                step.location.includes('Frontend') 
                   ? 'bg-orange-50 text-orange-700' 
                   : 'bg-white text-gray-700 border-gray-300'
               }>
