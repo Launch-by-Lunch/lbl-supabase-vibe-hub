@@ -163,11 +163,10 @@ const Index = () => {
         {/* Header */}
         <div className="text-center mb-8">
           <h1 className="text-4xl font-bold text-gray-900 mb-4">
-            From Local App to Cloud-Powered Application
+            Build Your Cloud App
           </h1>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-            Transform your single-page application from localStorage to a powerful cloud backend 
-            with authentication, database storage, and automated workflows.
+            Transform your application with authentication, database storage, and automated workflows.
           </p>
         </div>
 
@@ -356,7 +355,9 @@ const Index = () => {
             <div className="space-y-8">
               
               {/* Use Case 1 - User Registration */}
-              <div className="border rounded-lg p-6 bg-purple-50">
+              <div className={`border rounded-lg p-6 transition-colors ${
+                selectedStep?.startsWith('registration') ? 'bg-green-50' : 'bg-gray-50'
+              }`}>
                 <div className="flex items-center gap-2 mb-4">
                   <Badge variant="outline" className="bg-purple-100">Use Case 1</Badge>
                   <h3 className="text-lg font-semibold">User Registration & Onboarding</h3>
@@ -402,7 +403,9 @@ const Index = () => {
               </div>
 
               {/* Use Case 2 - Simple Contact Form */}
-              <div className="border rounded-lg p-6 bg-blue-50">
+              <div className={`border rounded-lg p-6 transition-colors ${
+                selectedStep?.startsWith('contact') ? 'bg-green-50' : 'bg-gray-50'
+              }`}>
                 <div className="flex items-center gap-2 mb-4">
                   <Badge variant="outline" className="bg-blue-100">Use Case 2</Badge>
                   <h3 className="text-lg font-semibold">Simple Contact Form</h3>
@@ -432,7 +435,9 @@ const Index = () => {
               </div>
 
               {/* Use Case 3 - Complete Workflow */}
-              <div className="border rounded-lg p-6 bg-green-50">
+              <div className={`border rounded-lg p-6 transition-colors ${
+                selectedStep?.startsWith('workflow') ? 'bg-green-50' : 'bg-gray-50'
+              }`}>
                 <div className="flex items-center gap-2 mb-4">
                   <Badge variant="outline" className="bg-green-100">Use Case 3</Badge>
                   <h3 className="text-lg font-semibold">Complete Workflow Automation</h3>
