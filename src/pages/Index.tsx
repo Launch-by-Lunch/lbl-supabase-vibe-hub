@@ -1,3 +1,4 @@
+
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
@@ -490,16 +491,27 @@ const Index = () => {
         <div className="mt-12">
           <Card className="bg-gradient-to-r from-amber-50 to-yellow-50 border-amber-200">
             <CardContent className="p-6">
-              <div className="flex items-start gap-3">
+              <div className="flex items-start gap-3 mb-4">
                 <div className="p-2 bg-amber-100 rounded-full">
                   <Lightbulb className="h-5 w-5 text-amber-600" />
                 </div>
+                <h3 className="text-lg font-semibold text-amber-800">Pro Tip</h3>
+              </div>
+              <div className="grid md:grid-cols-2 gap-6">
                 <div>
-                  <h3 className="text-lg font-semibold text-amber-800 mb-2">Pro Tip</h3>
                   <p className="text-amber-700">
-                    You can link multiple applications to the same Supabase project. This results in smaller applications, 
-                    less complexity, and more options to experiment. And finally, it burns fewer tokens!
+                    You can link multiple applications to the same Supabase project. This approach creates a powerful development workflow that maximizes efficiency and minimizes complexity.
                   </p>
+                </div>
+                <div>
+                  <h4 className="font-medium text-amber-800 mb-2">Benefits:</h4>
+                  <ul className="space-y-1 text-amber-700">
+                    <li>• Smaller, more focused applications</li>
+                    <li>• Reduced complexity per project</li>
+                    <li>• More experimentation opportunities</li>
+                    <li>• Burns fewer tokens</li>
+                    <li>• Shared database and authentication</li>
+                  </ul>
                 </div>
               </div>
             </CardContent>
