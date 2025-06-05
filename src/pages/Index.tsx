@@ -1,4 +1,3 @@
-
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
@@ -164,10 +163,10 @@ const Index = () => {
         {/* Header */}
         <div className="text-center mb-8">
           <h1 className="text-4xl font-bold text-gray-900 mb-4">
-            Build Your Cloud App
+            Local to Cloud Memory
           </h1>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-            Transform your application with authentication, database storage, and automated workflows.
+            Transform your single-person app into a collaborative cloud application with shared data, user authentication, and automated workflows.
           </p>
         </div>
 
