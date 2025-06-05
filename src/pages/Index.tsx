@@ -2,7 +2,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { ArrowRight, ArrowDown, Database, Cloud, Users, Mail, MessageSquare, CheckCircle } from "lucide-react";
+import { ArrowRight, ArrowDown, Database, Cloud, Users, Mail, MessageSquare, CheckCircle, Lightbulb } from "lucide-react";
 import { useState } from "react";
 
 const Index = () => {
@@ -486,22 +486,31 @@ const Index = () => {
           </CardContent>
         </Card>
 
-        {/* Next Steps */}
+        {/* Pro Tip Banner */}
+        <div className="mt-12">
+          <Card className="bg-gradient-to-r from-amber-50 to-yellow-50 border-amber-200">
+            <CardContent className="p-6">
+              <div className="flex items-start gap-3">
+                <div className="p-2 bg-amber-100 rounded-full">
+                  <Lightbulb className="h-5 w-5 text-amber-600" />
+                </div>
+                <div>
+                  <h3 className="text-lg font-semibold text-amber-800 mb-2">Pro Tip</h3>
+                  <p className="text-amber-700">
+                    You can link multiple applications to the same Supabase project. This results in smaller applications, 
+                    less complexity, and more options to experiment. And finally, it burns fewer tokens!
+                  </p>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+
+        {/* Footer */}
         <div className="mt-12 text-center">
           <Card className="bg-gradient-to-r from-blue-600 to-purple-600 text-white">
-            <CardContent className="p-8">
-              <h2 className="text-2xl font-bold mb-4">Ready to Get Started?</h2>
-              <p className="mb-6 text-blue-100">
-                Choose your backend solution and start building your cloud-powered application today.
-              </p>
-              <div className="flex flex-wrap justify-center gap-4">
-                <Button variant="secondary" size="lg">
-                  Connect Supabase
-                </Button>
-                <Button variant="outline" size="lg" className="text-white border-white hover:bg-white hover:text-blue-600">
-                  View Documentation
-                </Button>
-              </div>
+            <CardContent className="p-6">
+              <p className="text-lg font-medium">2025 Launch by Lunch</p>
             </CardContent>
           </Card>
         </div>
