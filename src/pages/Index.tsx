@@ -1,13 +1,37 @@
-
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { ArrowRight, ArrowDown, Database, Cloud, Users, Mail, MessageSquare, CheckCircle } from "lucide-react";
+import { ArrowRight, ArrowLeft, ArrowDown, Database, Cloud, Users, Mail, MessageSquare, CheckCircle } from "lucide-react";
 import { useState } from "react";
 
 const Index = () => {
   const [selectedStep, setSelectedStep] = useState<string | null>(null);
+  const [currentUseCase, setCurrentUseCase] = useState(0);
+
+  const useCases = [
+    {
+      id: 'registration',
+      title: 'User Registration & Onboarding',
+      description: 'Complete user registration flow with Firebase authentication and automated onboarding',
+      color: 'purple',
+      steps: ['reg-form', 'reg-user', 'reg-email', 'reg-profile']
+    },
+    {
+      id: 'contact',
+      title: 'Simple Contact Form',
+      description: 'Basic contact form with email notifications',
+      color: 'blue',
+      steps: ['contact-form', 'contact-email']
+    },
+    {
+      id: 'workflow',
+      title: 'Complete Workflow Automation',
+      description: 'Advanced lead capture with database storage and multi-channel notifications',
+      color: 'green',
+      steps: ['workflow-form', 'workflow-db', 'workflow-slack', 'workflow-email']
+    }
+  ];
 
   const stepDetails = {
     'reg-form': {
@@ -72,9 +96,45 @@ const Index = () => {
     }
   };
 
-  const StepComponent = ({ stepId, icon, title, subtitle }: { stepId: string, icon: React.ReactNode, title: string, subtitle?: string }) => {
+  const currentUseCaseData = useCases[currentUseCase];
+
+  const getStepIcon = (stepId: string) => {
+    if (stepId.includes('form')) return <Users className="h-8 w-8" />;
+    if (stepId.includes('user') || stepId.includes('db')) return <Database className="h-8 w-8" />;
+    if (stepId.includes('email')) return <Mail className="h-8 w-8" />;
+    if (stepId.includes('slack')) return <MessageSquare className="h-8 w-8" />;
+    if (stepId.includes('profile')) return <CheckCircle className="h-8 w-8" />;
+    return <Database className="h-8 w-8" />;
+  };
+
+  const getColorClasses = (color: string, isSelected: boolean = false) => {
+    const colors = {
+      purple: {
+        bg: isSelected ? 'bg-purple-500' : 'bg-purple-200 hover:bg-purple-300',
+        text: isSelected ? 'text-white' : 'text-purple-600',
+        border: 'border-purple-200',
+        bgLight: 'bg-purple-50'
+      },
+      blue: {
+        bg: isSelected ? 'bg-blue-500' : 'bg-blue-200 hover:bg-blue-300',
+        text: isSelected ? 'text-white' : 'text-blue-600',
+        border: 'border-blue-200',
+        bgLight: 'bg-blue-50'
+      },
+      green: {
+        bg: isSelected ? 'bg-green-500' : 'bg-green-200 hover:bg-green-300',
+        text: isSelected ? 'text-white' : 'text-green-600',
+        border: 'border-green-200',
+        bgLight: 'bg-green-50'
+      }
+    };
+    return colors[color as keyof typeof colors];
+  };
+
+  const StepComponent = ({ stepId }: { stepId: string }) => {
     const isSelected = selectedStep === stepId;
     const step = stepDetails[stepId as keyof typeof stepDetails];
+    const colorClasses = getColorClasses(currentUseCaseData.color, isSelected);
     
     return (
       <div 
@@ -84,31 +144,17 @@ const Index = () => {
         onClick={() => setSelectedStep(stepId)}
       >
         <div className={`w-16 h-16 rounded-lg flex items-center justify-center mb-2 transition-colors ${
-          isSelected 
-            ? 'bg-blue-500 shadow-lg' 
-            : stepId.includes('reg') 
-              ? 'bg-purple-200 hover:bg-purple-300' 
-              : stepId.includes('contact')
-                ? 'bg-blue-200 hover:bg-blue-300'
-                : 'bg-green-200 hover:bg-green-300'
+          isSelected ? 'bg-blue-500 shadow-lg' : colorClasses.bg
         }`}>
           <div className={`transition-colors ${
-            isSelected ? 'text-white' : 
-            stepId.includes('reg') 
-              ? 'text-purple-600' 
-              : stepId.includes('contact')
-                ? 'text-blue-600'
-                : 'text-green-600'
+            isSelected ? 'text-white' : colorClasses.text
           }`}>
-            {icon}
+            {getStepIcon(stepId)}
           </div>
         </div>
         <span className={`text-sm font-medium text-center transition-colors ${
           isSelected ? 'text-blue-600 font-semibold' : ''
-        }`}>{title}</span>
-        {subtitle && (
-          <span className="text-xs text-gray-600 text-center">{subtitle}</span>
-        )}
+        }`}>{step.title}</span>
         {step && (
           <Badge variant="outline" className={`mt-1 text-xs ${
             step.location.includes('Client') ? 'bg-orange-50 text-orange-700' : 'bg-green-50 text-green-700'
@@ -118,6 +164,20 @@ const Index = () => {
         )}
       </div>
     );
+  };
+
+  const nextUseCase = () => {
+    if (currentUseCase < useCases.length - 1) {
+      setCurrentUseCase(currentUseCase + 1);
+      setSelectedStep(null);
+    }
+  };
+
+  const prevUseCase = () => {
+    if (currentUseCase > 0) {
+      setCurrentUseCase(currentUseCase - 1);
+      setSelectedStep(null);
+    }
   };
 
   return (
@@ -307,202 +367,105 @@ const Index = () => {
           </CardContent>
         </Card>
 
-        {/* Use Cases */}
+        {/* Stepped Use Cases Presentation */}
         <Card>
           <CardHeader>
-            <CardTitle className="text-2xl">Step 2: Common Use Cases & Workflows</CardTitle>
+            <CardTitle className="text-2xl">Step-by-Step Implementation Guide</CardTitle>
             <CardDescription>
-              Click on each step to see detailed implementation prompts and understand where each task runs
+              Navigate through different use cases to understand the complete workflow
             </CardDescription>
           </CardHeader>
           <CardContent>
-            <div className="space-y-8">
+            {/* Navigation Header */}
+            <div className="flex items-center justify-between mb-8">
+              <Button 
+                variant="outline" 
+                onClick={prevUseCase}
+                disabled={currentUseCase === 0}
+                className="flex items-center gap-2"
+              >
+                <ArrowLeft className="h-4 w-4" />
+                Previous
+              </Button>
               
-              {/* Use Case 1 - User Registration */}
-              <div className="border rounded-lg p-6 bg-purple-50">
-                <div className="flex items-center gap-2 mb-4">
-                  <Badge variant="outline" className="bg-purple-100">Use Case 1</Badge>
-                  <h3 className="text-lg font-semibold">User Registration & Onboarding</h3>
-                </div>
-                
-                <div className="flex flex-col md:flex-row items-center justify-center gap-4 mb-6">
-                  <StepComponent 
-                    stepId="reg-form"
-                    icon={<Users className="h-8 w-8" />}
-                    title="Registration Form"
-                  />
-                  
-                  <ArrowDown className="h-6 w-6 text-gray-400 md:hidden" />
-                  <ArrowRight className="h-6 w-6 text-gray-400 hidden md:block" />
-                  
-                  <StepComponent 
-                    stepId="reg-user"
-                    icon={<Database className="h-8 w-8" />}
-                    title="Create Firebase User"
-                  />
-                  
-                  <ArrowDown className="h-6 w-6 text-gray-400 md:hidden" />
-                  <ArrowRight className="h-6 w-6 text-gray-400 hidden md:block" />
-                  
-                  <StepComponent 
-                    stepId="reg-email"
-                    icon={<MessageSquare className="h-8 w-8" />}
-                    title="Send Welcome Email"
-                  />
-                  
-                  <ArrowDown className="h-6 w-6 text-gray-400 md:hidden" />
-                  <ArrowRight className="h-6 w-6 text-gray-400 hidden md:block" />
-                  
-                  <StepComponent 
-                    stepId="reg-profile"
-                    icon={<CheckCircle className="h-8 w-8" />}
-                    title="Create User Profile"
-                  />
-                </div>
+              <div className="text-center">
+                <Badge variant="outline" className={`mb-2 ${getColorClasses(currentUseCaseData.color).bgLight}`}>
+                  Use Case {currentUseCase + 1} of {useCases.length}
+                </Badge>
+                <h3 className="text-xl font-semibold">{currentUseCaseData.title}</h3>
+                <p className="text-sm text-gray-600">{currentUseCaseData.description}</p>
+              </div>
+              
+              <Button 
+                variant="outline" 
+                onClick={nextUseCase}
+                disabled={currentUseCase === useCases.length - 1}
+                className="flex items-center gap-2"
+              >
+                Next
+                <ArrowRight className="h-4 w-4" />
+              </Button>
+            </div>
 
-                {selectedStep && stepDetails[selectedStep as keyof typeof stepDetails] && (
-                  <div className="bg-white p-4 rounded border border-blue-200">
-                    <div className="flex items-center gap-2 mb-2">
-                      <h4 className="font-medium">{stepDetails[selectedStep as keyof typeof stepDetails].title}</h4>
-                      <Badge variant="outline" className={
-                        stepDetails[selectedStep as keyof typeof stepDetails].location.includes('Client') 
-                          ? 'bg-orange-50 text-orange-700' 
-                          : 'bg-green-50 text-green-700'
-                      }>
-                        {stepDetails[selectedStep as keyof typeof stepDetails].location}
-                      </Badge>
-                    </div>
-                    <p className="text-sm text-gray-600 mb-3">
-                      {stepDetails[selectedStep as keyof typeof stepDetails].description}
-                    </p>
-                    <div className="bg-blue-50 p-3 rounded">
-                      <h5 className="font-medium text-sm mb-1">AI Prompt:</h5>
-                      <p className="text-sm italic text-blue-800">
-                        "{stepDetails[selectedStep as keyof typeof stepDetails].prompt}"
-                      </p>
-                    </div>
+            {/* Current Use Case Workflow */}
+            <div className={`border rounded-lg p-6 ${getColorClasses(currentUseCaseData.color).bgLight} ${getColorClasses(currentUseCaseData.color).border}`}>
+              <div className="flex flex-col md:flex-row items-center justify-center gap-4 mb-6">
+                {currentUseCaseData.steps.map((stepId, index) => (
+                  <div key={stepId} className="flex items-center">
+                    <StepComponent stepId={stepId} />
+                    {index < currentUseCaseData.steps.length - 1 && (
+                      <>
+                        <ArrowDown className="h-6 w-6 text-gray-400 md:hidden mx-2" />
+                        <ArrowRight className="h-6 w-6 text-gray-400 hidden md:block mx-4" />
+                      </>
+                    )}
                   </div>
-                )}
+                ))}
               </div>
 
-              {/* Use Case 2 - Simple Contact Form */}
-              <div className="border rounded-lg p-6 bg-blue-50">
-                <div className="flex items-center gap-2 mb-4">
-                  <Badge variant="outline" className="bg-blue-100">Use Case 2</Badge>
-                  <h3 className="text-lg font-semibold">Simple Contact Form</h3>
-                </div>
-                
-                <div className="flex flex-col md:flex-row items-center justify-center gap-4 mb-6">
-                  <StepComponent 
-                    stepId="contact-form"
-                    icon={<Users className="h-8 w-8" />}
-                    title="Public Form"
-                    subtitle="No login required"
-                  />
-                  
-                  <ArrowDown className="h-6 w-6 text-gray-400 md:hidden" />
-                  <ArrowRight className="h-6 w-6 text-gray-400 hidden md:block" />
-                  
-                  <StepComponent 
-                    stepId="contact-email"
-                    icon={<Mail className="h-8 w-8" />}
-                    title="Send Email"
-                    subtitle="Server-side"
-                  />
-                </div>
-
-                {selectedStep && (selectedStep === 'contact-form' || selectedStep === 'contact-email') && (
-                  <div className="bg-white p-4 rounded border border-blue-200">
-                    <div className="flex items-center gap-2 mb-2">
-                      <h4 className="font-medium">{stepDetails[selectedStep as keyof typeof stepDetails].title}</h4>
-                      <Badge variant="outline" className={
-                        stepDetails[selectedStep as keyof typeof stepDetails].location.includes('Client') 
-                          ? 'bg-orange-50 text-orange-700' 
-                          : 'bg-green-50 text-green-700'
-                      }>
-                        {stepDetails[selectedStep as keyof typeof stepDetails].location}
-                      </Badge>
-                    </div>
-                    <p className="text-sm text-gray-600 mb-3">
-                      {stepDetails[selectedStep as keyof typeof stepDetails].description}
-                    </p>
-                    <div className="bg-blue-50 p-3 rounded">
-                      <h5 className="font-medium text-sm mb-1">AI Prompt:</h5>
-                      <p className="text-sm italic text-blue-800">
-                        "{stepDetails[selectedStep as keyof typeof stepDetails].prompt}"
-                      </p>
-                    </div>
+              {selectedStep && stepDetails[selectedStep as keyof typeof stepDetails] && (
+                <div className="bg-white p-4 rounded border border-blue-200">
+                  <div className="flex items-center gap-2 mb-2">
+                    <h4 className="font-medium">{stepDetails[selectedStep as keyof typeof stepDetails].title}</h4>
+                    <Badge variant="outline" className={
+                      stepDetails[selectedStep as keyof typeof stepDetails].location.includes('Client') 
+                        ? 'bg-orange-50 text-orange-700' 
+                        : 'bg-green-50 text-green-700'
+                    }>
+                      {stepDetails[selectedStep as keyof typeof stepDetails].location}
+                    </Badge>
                   </div>
-                )}
-              </div>
-
-              {/* Use Case 3 - Complete Workflow */}
-              <div className="border rounded-lg p-6 bg-green-50">
-                <div className="flex items-center gap-2 mb-4">
-                  <Badge variant="outline" className="bg-green-100">Use Case 3</Badge>
-                  <h3 className="text-lg font-semibold">Complete Workflow Automation</h3>
-                </div>
-                
-                <div className="flex flex-col md:flex-row items-center justify-center gap-4 mb-6">
-                  <StepComponent 
-                    stepId="workflow-form"
-                    icon={<Users className="h-8 w-8" />}
-                    title="Public Form"
-                  />
-                  
-                  <ArrowDown className="h-6 w-6 text-gray-400 md:hidden" />
-                  <ArrowRight className="h-6 w-6 text-gray-400 hidden md:block" />
-                  
-                  <StepComponent 
-                    stepId="workflow-db"
-                    icon={<Database className="h-8 w-8" />}
-                    title="Store in Database"
-                  />
-                  
-                  <ArrowDown className="h-6 w-6 text-gray-400 md:hidden" />
-                  <ArrowRight className="h-6 w-6 text-gray-400 hidden md:block" />
-                  
-                  <StepComponent 
-                    stepId="workflow-slack"
-                    icon={<MessageSquare className="h-8 w-8" />}
-                    title="Slack Notification"
-                  />
-                  
-                  <ArrowDown className="h-6 w-6 text-gray-400 md:hidden" />
-                  <ArrowRight className="h-6 w-6 text-gray-400 hidden md:block" />
-                  
-                  <StepComponent 
-                    stepId="workflow-email"
-                    icon={<Mail className="h-8 w-8" />}
-                    title="Welcome Email"
-                  />
-                </div>
-
-                {selectedStep && selectedStep.startsWith('workflow-') && (
-                  <div className="bg-white p-4 rounded border border-blue-200">
-                    <div className="flex items-center gap-2 mb-2">
-                      <h4 className="font-medium">{stepDetails[selectedStep as keyof typeof stepDetails].title}</h4>
-                      <Badge variant="outline" className={
-                        stepDetails[selectedStep as keyof typeof stepDetails].location.includes('Client') 
-                          ? 'bg-orange-50 text-orange-700' 
-                          : 'bg-green-50 text-green-700'
-                      }>
-                        {stepDetails[selectedStep as keyof typeof stepDetails].location}
-                      </Badge>
-                    </div>
-                    <p className="text-sm text-gray-600 mb-3">
-                      {stepDetails[selectedStep as keyof typeof stepDetails].description}
+                  <p className="text-sm text-gray-600 mb-3">
+                    {stepDetails[selectedStep as keyof typeof stepDetails].description}
+                  </p>
+                  <div className="bg-blue-50 p-3 rounded">
+                    <h5 className="font-medium text-sm mb-1">AI Prompt:</h5>
+                    <p className="text-sm italic text-blue-800">
+                      "{stepDetails[selectedStep as keyof typeof stepDetails].prompt}"
                     </p>
-                    <div className="bg-blue-50 p-3 rounded">
-                      <h5 className="font-medium text-sm mb-1">AI Prompt:</h5>
-                      <p className="text-sm italic text-blue-800">
-                        "{stepDetails[selectedStep as keyof typeof stepDetails].prompt}"
-                      </p>
-                    </div>
                   </div>
-                )}
-              </div>
+                </div>
+              )}
+            </div>
 
+            {/* Step Indicators */}
+            <div className="flex justify-center mt-6">
+              <div className="flex space-x-2">
+                {useCases.map((useCase, index) => (
+                  <button
+                    key={useCase.id}
+                    onClick={() => {
+                      setCurrentUseCase(index);
+                      setSelectedStep(null);
+                    }}
+                    className={`w-3 h-3 rounded-full transition-colors ${
+                      index === currentUseCase 
+                        ? 'bg-blue-500' 
+                        : 'bg-gray-300 hover:bg-gray-400'
+                    }`}
+                  />
+                ))}
+              </div>
             </div>
           </CardContent>
         </Card>
