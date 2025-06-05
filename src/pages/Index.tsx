@@ -1,4 +1,3 @@
-
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
@@ -520,11 +519,7 @@ const Index = () => {
 
         {/* Footer */}
         <div className="mt-12 text-center">
-          <Card className="bg-gradient-to-r from-blue-600 to-purple-600 text-white">
-            <CardContent className="p-6">
-              <p className="text-lg font-medium">2025 Launch by Lunch</p>
-            </CardContent>
-          </Card>
+          <p className="text-gray-600">&copy; 2025 Launch by Lunch</p>
         </div>
       </div>
     </div>
