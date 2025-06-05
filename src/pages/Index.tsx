@@ -1,3 +1,4 @@
+
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
@@ -117,7 +118,7 @@ const Index = () => {
           )}
           {step && (
             <Badge variant="outline" className={`mt-1 text-xs ${
-              step.location.includes('Client') ? 'bg-orange-50 text-orange-700' : 'bg-green-50 text-green-700'
+              step.location.includes('Client') ? 'bg-orange-50 text-orange-700' : 'bg-white text-gray-700 border-gray-300'
             }`}>
               {step.location.includes('Client') ? 'Client' : 'Server'}
             </Badge>
@@ -131,7 +132,7 @@ const Index = () => {
               <Badge variant="outline" className={
                 step.location.includes('Client') 
                   ? 'bg-orange-50 text-orange-700' 
-                  : 'bg-green-50 text-green-700'
+                  : 'bg-white text-gray-700 border-gray-300'
               }>
                 {step.location}
               </Badge>
